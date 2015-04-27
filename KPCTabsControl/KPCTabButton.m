@@ -49,6 +49,12 @@
 - (void)setup
 {
     [self setCell:[[KPCTabButtonCell alloc] initTextCell:@""]];
+    self.wantsLayer = YES;
+}
+
+- (BOOL)allowsVibrancy
+{
+    return YES;
 }
 
 - (instancetype)copyWithZone:(NSZone *)zone
@@ -108,6 +114,15 @@
     }
 }
 
+
+- (NSRect)popupRectWithFrame:(NSRect)cellFrame
+{
+    NSRect popupRect = NSZeroRect;
+    popupRect.size = [[KPCTabButtonCell popupImage] size];
+    popupRect.origin = NSMakePoint(NSMaxX(cellFrame) - NSWidth(popupRect) - 8, NSMidY(cellFrame) - NSHeight(popupRect) / 2);
+    return popupRect;
+}
+
 - (void)drawRect:(NSRect)dirtyRect
 {
     CGFloat y = 2.0;
@@ -131,6 +146,15 @@
     BOOL hasRoom = [self.cell hasRoomToDrawFullTitleInRect:self.bounds];
     [self.alternativeTitleIconView setHidden:hasRoom];
     self.toolTip = (hasRoom) ? nil : self.title;
+    
+    if (self.showsMenu) {
+        [[KPCTabButtonCell popupImage] drawInRect:[self popupRectWithFrame:self.bounds]
+                                         fromRect:NSZeroRect
+                                        operation:NSCompositeSourceOver
+                                         fraction:1.0
+                                   respectFlipped:YES
+                                            hints:nil];
+    }
     
     [super drawRect:dirtyRect];
 }

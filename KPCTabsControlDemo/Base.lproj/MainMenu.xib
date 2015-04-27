@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="6250" systemVersion="14A388a" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" customObjectInstantitationMethod="direct">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="7702" systemVersion="14D136" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" customObjectInstantitationMethod="direct">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="6250"/>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="7702"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="NSApplication">
@@ -673,91 +674,97 @@
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
             <rect key="contentRect" x="335" y="390" width="480" height="360"/>
             <rect key="screenRect" x="0.0" y="0.0" width="1440" height="877"/>
-            <view key="contentView" id="EiT-Mj-1SZ">
+            <view key="contentView" wantsLayer="YES" id="EiT-Mj-1SZ">
                 <rect key="frame" x="0.0" y="0.0" width="480" height="360"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <splitView dividerStyle="paneSplitter" id="Ck8-os-qHW">
+                    <visualEffectView appearanceType="vibrantLight" blendingMode="behindWindow" material="appearanceBased" state="followsWindowActiveState" id="cD5-Gx-ueg">
                         <rect key="frame" x="0.0" y="0.0" width="480" height="360"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <customView id="cX9-TC-uim">
-                                <rect key="frame" x="0.0" y="0.0" width="480" height="171"/>
-                                <autoresizingMask key="autoresizingMask"/>
+                            <splitView dividerStyle="paneSplitter" id="Ck8-os-qHW">
+                                <rect key="frame" x="0.0" y="0.0" width="480" height="360"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <subviews>
-                                    <customView id="6yZ-WH-RCy" customClass="KPCTabsControl">
-                                        <rect key="frame" x="0.0" y="150" width="480" height="21"/>
-                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                                        <connections>
-                                            <outlet property="dataSource" destination="xdx-8e-TeG" id="KSy-Kk-9K3"/>
-                                            <outlet property="delegate" destination="xdx-8e-TeG" id="qdk-cL-uIF"/>
-                                        </connections>
+                                    <customView id="cX9-TC-uim">
+                                        <rect key="frame" x="0.0" y="0.0" width="480" height="171"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <subviews>
+                                            <customView id="6yZ-WH-RCy" customClass="KPCTabsControl">
+                                                <rect key="frame" x="0.0" y="150" width="480" height="21"/>
+                                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                                                <connections>
+                                                    <outlet property="dataSource" destination="xdx-8e-TeG" id="KSy-Kk-9K3"/>
+                                                    <outlet property="delegate" destination="xdx-8e-TeG" id="qdk-cL-uIF"/>
+                                                </connections>
+                                            </customView>
+                                            <button id="vXn-Sz-Wjz">
+                                                <rect key="frame" x="171" y="76" width="138" height="18"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                                                <buttonCell key="cell" type="check" title="Use full-width tabs" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="q8c-zp-J0t">
+                                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                    <font key="font" metaFont="system"/>
+                                                </buttonCell>
+                                                <connections>
+                                                    <action selector="toggleFullWidthTabs:" target="xdx-8e-TeG" id="B42-6B-0a8"/>
+                                                </connections>
+                                            </button>
+                                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="F6G-hp-JoA">
+                                                <rect key="frame" x="18" y="53" width="444" height="17"/>
+                                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="center" title="Label" id="BN9-n7-rmP">
+                                                    <font key="font" metaFont="system"/>
+                                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                                </textFieldCell>
+                                            </textField>
+                                        </subviews>
                                     </customView>
-                                    <button id="vXn-Sz-Wjz">
-                                        <rect key="frame" x="171" y="76" width="138" height="18"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
-                                        <buttonCell key="cell" type="check" title="Use full-width tabs" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="q8c-zp-J0t">
-                                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                            <font key="font" metaFont="system"/>
-                                        </buttonCell>
-                                        <connections>
-                                            <action selector="toggleFullWidthTabs:" target="xdx-8e-TeG" id="B42-6B-0a8"/>
-                                        </connections>
-                                    </button>
-                                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="F6G-hp-JoA">
-                                        <rect key="frame" x="18" y="53" width="444" height="17"/>
-                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
-                                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="center" title="Label" id="BN9-n7-rmP">
-                                            <font key="font" metaFont="system"/>
-                                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                        </textFieldCell>
-                                    </textField>
-                                </subviews>
-                            </customView>
-                            <customView id="WUg-Je-gBw">
-                                <rect key="frame" x="0.0" y="181" width="480" height="179"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                                <subviews>
-                                    <customView id="Nsw-7J-Pfp" customClass="KPCTabsControl">
-                                        <rect key="frame" x="0.0" y="158" width="480" height="21"/>
-                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                                        <connections>
-                                            <outlet property="dataSource" destination="PpQ-PP-vYq" id="w8W-pg-tSq"/>
-                                            <outlet property="delegate" destination="PpQ-PP-vYq" id="pnK-ka-Ul4"/>
-                                        </connections>
+                                    <customView id="WUg-Je-gBw">
+                                        <rect key="frame" x="0.0" y="181" width="480" height="179"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <subviews>
+                                            <customView id="Nsw-7J-Pfp" customClass="KPCTabsControl">
+                                                <rect key="frame" x="0.0" y="158" width="480" height="21"/>
+                                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                                                <connections>
+                                                    <outlet property="dataSource" destination="PpQ-PP-vYq" id="w8W-pg-tSq"/>
+                                                    <outlet property="delegate" destination="PpQ-PP-vYq" id="pnK-ka-Ul4"/>
+                                                </connections>
+                                            </customView>
+                                            <button id="7dS-xx-Fzc">
+                                                <rect key="frame" x="171" y="80" width="138" height="18"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                                                <buttonCell key="cell" type="check" title="Use full-width tabs" bezelStyle="regularSquare" imagePosition="left" inset="2" id="EiK-Ws-cNo">
+                                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                    <font key="font" metaFont="system"/>
+                                                </buttonCell>
+                                                <connections>
+                                                    <action selector="toggleFullWidthTabs:" target="PpQ-PP-vYq" id="Jz7-N4-Qci"/>
+                                                </connections>
+                                            </button>
+                                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="rYX-Zz-PXW">
+                                                <rect key="frame" x="18" y="57" width="444" height="17"/>
+                                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="center" title="Label" id="Kou-nG-MKf">
+                                                    <font key="font" metaFont="system"/>
+                                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                                </textFieldCell>
+                                            </textField>
+                                        </subviews>
                                     </customView>
-                                    <button id="7dS-xx-Fzc">
-                                        <rect key="frame" x="171" y="80" width="138" height="18"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
-                                        <buttonCell key="cell" type="check" title="Use full-width tabs" bezelStyle="regularSquare" imagePosition="left" inset="2" id="EiK-Ws-cNo">
-                                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                            <font key="font" metaFont="system"/>
-                                        </buttonCell>
-                                        <connections>
-                                            <action selector="toggleFullWidthTabs:" target="PpQ-PP-vYq" id="Jz7-N4-Qci"/>
-                                        </connections>
-                                    </button>
-                                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="rYX-Zz-PXW">
-                                        <rect key="frame" x="18" y="57" width="444" height="17"/>
-                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
-                                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="center" title="Label" id="Kou-nG-MKf">
-                                            <font key="font" metaFont="system"/>
-                                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                        </textFieldCell>
-                                    </textField>
                                 </subviews>
-                            </customView>
+                                <holdingPriorities>
+                                    <real value="250"/>
+                                    <real value="250"/>
+                                </holdingPriorities>
+                            </splitView>
                         </subviews>
-                        <holdingPriorities>
-                            <real value="250"/>
-                            <real value="250"/>
-                        </holdingPriorities>
-                    </splitView>
+                    </visualEffectView>
                 </subviews>
             </view>
-            <point key="canvasLocation" x="327" y="434"/>
+            <point key="canvasLocation" x="221" y="409"/>
         </window>
         <viewController title="pane1" id="xdx-8e-TeG" userLabel="Top Pane View Controller" customClass="PaneViewController">
             <connections>

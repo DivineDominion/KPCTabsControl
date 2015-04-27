@@ -14,7 +14,6 @@
 @property(nonatomic, assign) BOOL showsMenu;
 @property(nonatomic, assign) BOOL hasTitleAlternativeIcon;
 @property(nonatomic, assign) KPCBorderMask borderMask;
-@property(nonatomic, assign, readonly, getter=isHighlighted) BOOL highlighted;
 @property(nonatomic, assign, readonly, getter=isSelected) BOOL selected;
 
 @property(nonatomic, copy) NSColor *tabBorderColor;
@@ -25,6 +24,8 @@
 @property(nonatomic, copy) NSColor *tabSelectedBorderColor;
 @property(nonatomic, copy) NSColor *tabSelectedTitleColor;
 @property(nonatomic, copy) NSColor *tabSelectedBackgroundColor;
+
++ (NSImage *)popupImage;
 
 - (NSRect)editingRectForBounds:(NSRect)rect;
 - (void)highlight:(BOOL)flag;

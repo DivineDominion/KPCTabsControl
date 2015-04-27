@@ -618,7 +618,7 @@
 				);
 				INFOPLIST_FILE = KPCTabsControlDemo/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -631,7 +631,7 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				INFOPLIST_FILE = KPCTabsControlDemo/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
@@ -787,6 +787,7 @@
 				9FA7EDB91AD668BC0060FF79 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		9FA7EDBD1AD668BC0060FF79 /* Build configuration list for PBXNativeTarget "KPCTabsControlTests" */ = {
 			isa = XCConfigurationList;
@@ -795,6 +796,7 @@
 				9FA7EDBB1AD668BC0060FF79 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

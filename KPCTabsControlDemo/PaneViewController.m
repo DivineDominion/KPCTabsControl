@@ -60,8 +60,9 @@
         case 0: {
             self.titles = @[@"Tab 1", @"Tab 2", @"Tab 3", @"Tab 4", @"Tab 5"];
             NSMenu *tab2Menu = [[NSMenu alloc] init];
-            [tab2Menu addItemWithTitle:@"Action 1" action:NULL keyEquivalent:@""];
-            [tab2Menu addItemWithTitle:@"Action 2" action:NULL keyEquivalent:@""];
+            [tab2Menu addItemWithTitle:@"Action 1" action:@selector(showActionAlert:) keyEquivalent:@""];
+            [tab2Menu addItemWithTitle:@"Action 2" action:@selector(showActionAlert:) keyEquivalent:@""];
+            [[tab2Menu itemArray] makeObjectsPerformSelector:@selector(setTarget:) withObject:self];
             self.menus = @{@"Tab 2": tab2Menu};
             break;
         }
@@ -73,6 +74,15 @@
         default:
             break;
     }
+}
+
+- (void)showActionAlert:(id)sender
+{
+    NSAlert *alert = [[NSAlert alloc] init];
+    [alert setAlertStyle:NSInformationalAlertStyle];
+    [alert setMessageText:@"KPCTabsControl menu action"];
+    [alert setInformativeText:[NSString stringWithFormat:@"Action triggered from menu item with title: '%@'", [sender title]]];
+    [alert runModal];
 }
 
 - (void)awakeFromNib

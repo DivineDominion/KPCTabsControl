@@ -24,8 +24,9 @@ static CGFloat titleMargin = 5.0;
 - (id)initTextCell:(NSString *)string
 {
     self = [super initTextCell:string];
-    if (self) {        
-        [self setBordered:YES];
+    if (self) {
+#warning Were these borders really necessary anyway?
+        [self setBordered:NO];
         [self setBackgroundStyle:NSBackgroundStyleLight];
         [self setHighlightsBy:NSChangeBackgroundCellMask];
         [self setLineBreakMode:NSLineBreakByTruncatingTail];
@@ -194,7 +195,8 @@ static CGFloat titleMargin = 5.0;
     NSRect popupRect = [self popupRectWithFrame:cellFrame];
     NSPoint location = [controlView convertPoint:[theEvent locationInWindow] fromView:nil];
     
-    if ([self hitTestForEvent:theEvent inRect:[[controlView superview] frame] ofView:[controlView superview]] != NSCellHitNone) {
+//    NSCellHitResult hitResult = [self hitTestForEvent:theEvent inRect:cellFrame ofView:controlView];
+//    if (hitResult != NSCellHitNone) {
     
         if (self.menu.itemArray.count > 0 &&  NSPointInRect(location, popupRect)) {
             [self.menu popUpMenuPositioningItem:self.menu.itemArray[0]
@@ -204,8 +206,8 @@ static CGFloat titleMargin = 5.0;
             [self setShowsMenu:NO];
             return YES;
         }
-    }
-        
+//    }
+    
     return [super trackMouse:theEvent inRect:cellFrame ofView:controlView untilMouseUp:flag];
 }
 
@@ -220,64 +222,67 @@ static CGFloat titleMargin = 5.0;
     return [self titleRectForBounds:NSOffsetRect(rect, 0, 1)];
 }
 
-- (void)drawWithFrame:(NSRect)cellFrame inView:(NSView *)controlView
-{
-    [self drawBezelWithFrame:cellFrame inView:controlView];
-    
-    if ([self hasRoomToDrawFullTitleInRect:cellFrame] || !self.hasTitleAlternativeIcon) {
-        [self drawTitle:[self attributedTitle] withFrame:cellFrame inView:controlView];
-    }
-    
-    if (self.image && self.imagePosition != NSNoImage) {
-         [self drawImage:[self.image KPC_imageWithTint:(self.isHighlighted) ? [NSColor darkGrayColor] : [NSColor lightGrayColor]]
-              withFrame:cellFrame
-                 inView:controlView];
-    }
+//- (void)drawWithFrame:(NSRect)cellFrame inView:(NSView *)controlView
+//{
+//    [self drawBezelWithFrame:cellFrame inView:controlView];
+//    
+//    if ([self hasRoomToDrawFullTitleInRect:cellFrame] || !self.hasTitleAlternativeIcon) {
+//        [self drawTitle:[self attributedTitle] withFrame:cellFrame inView:controlView];
+//    }
+//    
+//    if (self.image && self.imagePosition != NSNoImage) {
+//         [self drawImage:[self.image KPC_imageWithTint:(self.isHighlighted) ? [NSColor darkGrayColor] : [NSColor lightGrayColor]]
+//              withFrame:cellFrame
+//                 inView:controlView];
+//    }
+//
+//    if (self.showsMenu) {
+//        [[KPCTabButtonCell popupImage] drawInRect:[self popupRectWithFrame:cellFrame]
+//                                         fromRect:NSZeroRect
+//                                        operation:NSCompositeSourceOver
+//                                         fraction:1.0
+//                                   respectFlipped:YES
+//                                            hints:nil];
+//    }
+//}
 
-    if (self.showsMenu) {
-        [[KPCTabButtonCell popupImage] drawInRect:[self popupRectWithFrame:cellFrame]
-                                         fromRect:NSZeroRect
-                                        operation:NSCompositeSourceOver
-                                         fraction:1.0
-                                   respectFlipped:YES
-                                            hints:nil];
-    }
-}
-
-- (void)drawBezelWithFrame:(NSRect)cellFrame inView:(NSView *)controlView
-{
-    if (self.isSelected) {
-        [self.tabSelectedBackgroundColor setFill];
-    }
-    else if (self.isHighlighted) {
-        [self.tabHighlightedBackgroundColor setFill];
-    }
-    else {
-        [self.tabBackgroundColor setFill];
-    }
-    NSRectFill(cellFrame);
-    
-    NSRect *borderRects;
-    NSInteger borderRectCount;
-    
-    if (KPCRectArrayWithBorderMask(cellFrame, self.borderMask, &borderRects, &borderRectCount)) {
-        if (self.isSelected) {
-            [self.tabSelectedBorderColor setFill];
-        }
-        else {
-            [self.tabBorderColor setFill];
-        }
-        [self.tabBorderColor set];
-        NSRectFillList(borderRects, borderRectCount);
-    }
-}
-
-- (NSRect)drawTitle:(NSAttributedString *)title withFrame:(NSRect)frame inView:(NSView *)controlView
-{
-    NSRect titleRect = [self titleRectForBounds:frame];
-    [title drawInRect:titleRect];
-    return titleRect;
-}
-
+//- (void)drawBezelWithFrame:(NSRect)cellFrame inView:(NSView *)controlView
+//{
+//    [super drawBezelWithFrame:cellFrame inView:controlView];
+//    return;
+//
+//    if (self.isSelected) {
+//        [self.tabSelectedBackgroundColor setFill];
+//    }
+//    else if (self.isHighlighted) {
+//        [self.tabHighlightedBackgroundColor setFill];
+//    }
+//    else {
+//        [self.tabBackgroundColor setFill];
+//    }
+//    NSRectFill(cellFrame);
+//    
+//    NSRect *borderRects;
+//    NSInteger borderRectCount;
+//    
+//    if (KPCRectArrayWithBorderMask(cellFrame, self.borderMask, &borderRects, &borderRectCount)) {
+//        if (self.isSelected) {
+//            [self.tabSelectedBorderColor setFill];
+//        }
+//        else {
+//            [self.tabBorderColor setFill];
+//        }
+//        [self.tabBorderColor set];
+//        NSRectFillList(borderRects, borderRectCount);
+//    }
+//}
+//
+//- (NSRect)drawTitle:(NSAttributedString *)title withFrame:(NSRect)frame inView:(NSView *)controlView
+//{
+//    NSRect titleRect = [self titleRectForBounds:frame];
+//    [title drawInRect:titleRect];
+//    return titleRect;
+//}
+//
 
 @end
