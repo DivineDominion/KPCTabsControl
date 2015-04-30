@@ -195,18 +195,14 @@ static CGFloat titleMargin = 5.0;
     NSRect popupRect = [self popupRectWithFrame:cellFrame];
     NSPoint location = [controlView convertPoint:[theEvent locationInWindow] fromView:nil];
     
-//    NSCellHitResult hitResult = [self hitTestForEvent:theEvent inRect:cellFrame ofView:controlView];
-//    if (hitResult != NSCellHitNone) {
-    
-        if (self.menu.itemArray.count > 0 &&  NSPointInRect(location, popupRect)) {
-            [self.menu popUpMenuPositioningItem:self.menu.itemArray[0]
-                                     atLocation:NSMakePoint(NSMidX(popupRect), NSMaxY(popupRect))
-                                         inView:controlView];
-            
-            [self setShowsMenu:NO];
-            return YES;
-        }
-//    }
+    if (self.menu.itemArray.count > 0 &&  NSPointInRect(location, popupRect)) {
+        [self.menu popUpMenuPositioningItem:self.menu.itemArray[0]
+                                 atLocation:NSMakePoint(NSMidX(popupRect), NSMaxY(popupRect))
+                                     inView:controlView];
+        
+        [self setShowsMenu:NO];
+        return YES;
+    }
     
     return [super trackMouse:theEvent inRect:cellFrame ofView:controlView untilMouseUp:flag];
 }
@@ -222,67 +218,77 @@ static CGFloat titleMargin = 5.0;
     return [self titleRectForBounds:NSOffsetRect(rect, 0, 1)];
 }
 
-//- (void)drawWithFrame:(NSRect)cellFrame inView:(NSView *)controlView
-//{
-//    [self drawBezelWithFrame:cellFrame inView:controlView];
-//    
-//    if ([self hasRoomToDrawFullTitleInRect:cellFrame] || !self.hasTitleAlternativeIcon) {
-//        [self drawTitle:[self attributedTitle] withFrame:cellFrame inView:controlView];
-//    }
-//    
-//    if (self.image && self.imagePosition != NSNoImage) {
-//         [self drawImage:[self.image KPC_imageWithTint:(self.isHighlighted) ? [NSColor darkGrayColor] : [NSColor lightGrayColor]]
-//              withFrame:cellFrame
-//                 inView:controlView];
-//    }
-//
-//    if (self.showsMenu) {
-//        [[KPCTabButtonCell popupImage] drawInRect:[self popupRectWithFrame:cellFrame]
-//                                         fromRect:NSZeroRect
-//                                        operation:NSCompositeSourceOver
-//                                         fraction:1.0
-//                                   respectFlipped:YES
-//                                            hints:nil];
-//    }
-//}
+- (BOOL)hasParentVisualEffectView
+{
+    BOOL result = NO;
+    NSView *v = self.controlView;
+    while (v) {
+        v = [v superview];
+        if ([v isKindOfClass:NSClassFromString(@"NSVisualEffectView")]) {
+            result = YES;
+            break;
+        }
+    }
+    return result;
+}
 
-//- (void)drawBezelWithFrame:(NSRect)cellFrame inView:(NSView *)controlView
-//{
-//    [super drawBezelWithFrame:cellFrame inView:controlView];
-//    return;
-//
-//    if (self.isSelected) {
-//        [self.tabSelectedBackgroundColor setFill];
-//    }
-//    else if (self.isHighlighted) {
-//        [self.tabHighlightedBackgroundColor setFill];
-//    }
-//    else {
-//        [self.tabBackgroundColor setFill];
-//    }
-//    NSRectFill(cellFrame);
-//    
-//    NSRect *borderRects;
-//    NSInteger borderRectCount;
-//    
-//    if (KPCRectArrayWithBorderMask(cellFrame, self.borderMask, &borderRects, &borderRectCount)) {
-//        if (self.isSelected) {
-//            [self.tabSelectedBorderColor setFill];
-//        }
-//        else {
-//            [self.tabBorderColor setFill];
-//        }
-//        [self.tabBorderColor set];
-//        NSRectFillList(borderRects, borderRectCount);
-//    }
-//}
-//
-//- (NSRect)drawTitle:(NSAttributedString *)title withFrame:(NSRect)frame inView:(NSView *)controlView
-//{
-//    NSRect titleRect = [self titleRectForBounds:frame];
-//    [title drawInRect:titleRect];
-//    return titleRect;
-//}
-//
+- (BOOL)respondsToSelector:(SEL)aSelector
+{
+    if (aSelector == @selector(drawWithFrame:inView:) || aSelector == @selector(drawBezelWithFrame:inView:) || aSelector == @selector(drawTitle:withFrame:inView:)) {
+        return ![self hasParentVisualEffectView];
+    }
+    return [super respondsToSelector:aSelector];
+}
+
+- (void)drawWithFrame:(NSRect)cellFrame inView:(NSView *)controlView
+{
+    [self drawBezelWithFrame:cellFrame inView:controlView];
+    
+    if ([self hasRoomToDrawFullTitleInRect:cellFrame] || !self.hasTitleAlternativeIcon) {
+        [self drawTitle:[self attributedTitle] withFrame:cellFrame inView:controlView];
+    }
+    
+    if (self.image && self.imagePosition != NSNoImage) {
+         [self drawImage:[self.image KPC_imageWithTint:(self.isHighlighted) ? [NSColor darkGrayColor] : [NSColor lightGrayColor]]
+              withFrame:cellFrame
+                 inView:controlView];
+    }
+}
+
+- (void)drawBezelWithFrame:(NSRect)cellFrame inView:(NSView *)controlView
+{
+    if (self.isSelected) {
+        [self.tabSelectedBackgroundColor setFill];
+    }
+    else if (self.isHighlighted) {
+        [self.tabHighlightedBackgroundColor setFill];
+    }
+    else {
+        [self.tabBackgroundColor setFill];
+    }
+    NSRectFill(cellFrame);
+    
+    NSRect *borderRects;
+    NSInteger borderRectCount;
+    
+    if (KPCRectArrayWithBorderMask(cellFrame, self.borderMask, &borderRects, &borderRectCount)) {
+        if (self.isSelected) {
+            [self.tabSelectedBorderColor setFill];
+        }
+        else {
+            [self.tabBorderColor setFill];
+        }
+        [self.tabBorderColor set];
+        NSRectFillList(borderRects, borderRectCount);
+    }
+}
+
+- (NSRect)drawTitle:(NSAttributedString *)title withFrame:(NSRect)frame inView:(NSView *)controlView
+{
+    NSRect titleRect = [self titleRectForBounds:frame];
+    [title drawInRect:titleRect];
+    return titleRect;
+}
+
 
 @end
