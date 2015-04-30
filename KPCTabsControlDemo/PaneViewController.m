@@ -56,23 +56,28 @@
                                                  name:@"PaneSelectionDidChangeNotification"
                                                object:nil];
     
-    switch ([self.title isEqualToString:@"pane1"]) {
-        case 0: {
-            self.titles = @[@"Tab 1", @"Tab 2", @"Tab 3", @"Tab 4", @"Tab 5"];
-            NSMenu *tab2Menu = [[NSMenu alloc] init];
-            [tab2Menu addItemWithTitle:@"Action 1" action:@selector(showActionAlert:) keyEquivalent:@""];
-            [tab2Menu addItemWithTitle:@"Action 2" action:@selector(showActionAlert:) keyEquivalent:@""];
-            [[tab2Menu itemArray] makeObjectsPerformSelector:@selector(setTarget:) withObject:self];
-            self.menus = @{@"Tab 2": tab2Menu};
-            break;
-        }
-
-        case 1:
-            self.titles = @[@"Tab a", @"Tab b", @"Tab c", @"Tab d"];
-            break;
-
-        default:
-            break;
+    if ([self.title isEqualToString:@"paneTopLeft"]) {
+        self.titles = @[@"Vibrant 1", @"Vibrant 2", @"Vibrant 3", @"Vibrant 4", @"Vibrant 5"];
+        NSMenu *tab2Menu = [[NSMenu alloc] init];
+        [tab2Menu addItemWithTitle:@"VibrantTab Action 1" action:@selector(showActionAlert:) keyEquivalent:@""];
+        [tab2Menu addItemWithTitle:@"VibrantTab Action 2" action:@selector(showActionAlert:) keyEquivalent:@""];
+        [[tab2Menu itemArray] makeObjectsPerformSelector:@selector(setTarget:) withObject:self];
+        self.menus = @{@"Vibrant 2": tab2Menu};
+    }
+    else if ([self.title isEqualToString:@"paneBottomLeft"]) {
+        self.titles = @[@"Vibrant a", @"Vibrant b", @"Vibrant c", @"Vibrant d"];
+    }
+    else if ([self.title isEqualToString:@"paneTopRight"]) {
+        self.titles = @[@"Tab #a", @"Tab #b", @"Tab #c", @"Tab #d", @"Tab #e", @"Tab #f", @"Tab #g", @"Tab #h"];
+    }
+    else if ([self.title isEqualToString:@"paneBottomRight"]) {
+        self.titles = @[@"Tab #1", @"Tab #2"];
+        NSMenu *tab2Menu = [[NSMenu alloc] init];
+        [tab2Menu addItemWithTitle:@"Action 1" action:@selector(showActionAlert:) keyEquivalent:@""];
+        [tab2Menu addItemWithTitle:@"Action 2" action:@selector(showActionAlert:) keyEquivalent:@""];
+        [tab2Menu addItemWithTitle:@"Action 3" action:@selector(showActionAlert:) keyEquivalent:@""];
+        [[tab2Menu itemArray] makeObjectsPerformSelector:@selector(setTarget:) withObject:self];
+        self.menus = @{@"Tab #2": tab2Menu};
     }
 }
 
@@ -166,19 +171,42 @@
 
 - (NSImage *)tabsControl:(KPCTabsControl *)tabControl iconForItem:(id)item
 {
-    if ([item isEqualToString:@"Tab a"]) {
+    if ([item isEqualToString:@"Vibrant a"]) {
         return [NSImage imageNamed:@"Star"];
     }
-    else if ([item isEqualToString:@"Tab b"]) {
+    else if ([item isEqualToString:@"Vibrant b"]) {
         return [NSImage imageNamed:@"Oval"];
     }
-    else if ([item isEqualToString:@"Tab 2"]) {
+    else if ([item isEqualToString:@"Vibrant 2"]) {
         return [NSImage imageNamed:@"Triangle"];
     }
-    else if ([item isEqualToString:@"Tab 3"]) {
+    else if ([item isEqualToString:@"Vibrant 3"]) {
         return [NSImage imageNamed:@"Spiral"];
     }
-    else if ([item isEqualToString:@"Tab 4"]) {
+    else if ([item isEqualToString:@"Vibrant 4"]) {
+        return [NSImage imageNamed:@"Polygon"];
+    }
+    
+    return nil;
+}
+
+// By returning the same icons as alternative icons, we make sure, the title do not overlap the left-hand place icon,
+// and replace the two (left-hand icon and title), with the new icon.
+- (NSImage *)tabsControl:(KPCTabsControl *)tabControl titleAlternativeIconForItem:(id)item
+{
+    if ([item isEqualToString:@"Vibrant a"]) {
+        return [NSImage imageNamed:@"Star"];
+    }
+    else if ([item isEqualToString:@"Vibrant b"]) {
+        return [NSImage imageNamed:@"Oval"];
+    }
+    else if ([item isEqualToString:@"Vibrant 2"]) {
+        return [NSImage imageNamed:@"Triangle"];
+    }
+    else if ([item isEqualToString:@"Vibrant 3"]) {
+        return [NSImage imageNamed:@"Spiral"];
+    }
+    else if ([item isEqualToString:@"Vibrant 4"]) {
         return [NSImage imageNamed:@"Polygon"];
     }
     

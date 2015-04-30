@@ -22,6 +22,10 @@
     // Insert code here to tear down your application
 }
 
+- (IBAction)toggleVibrancy:(id)sender
+{
+    
+}
 
 
 @end
