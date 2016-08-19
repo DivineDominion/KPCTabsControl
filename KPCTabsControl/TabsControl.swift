@@ -502,7 +502,6 @@ public class TabsControl: NSControl, TabEditingDelegate {
             else { return }
 
         defer {
-            self.reloadTabs()
             self.selectedButtonIndex = selectedButtonIndex
         }
 
