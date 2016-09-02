@@ -3,114 +3,81 @@
 //  KPCTabsControlDemo
 //
 //  Created by Cédric Foellmi on 15/07/16.
-//  Copyright © 2016 Cédric Foellmi. All rights reserved.
+//  Licensed under the MIT License (see LICENSE file)
 //
 
 import Cocoa
 import KPCTabsControl
+
+// We need a class (rather than a struct or a tuple – which would be nice) because TabsControlDelegate has
+// @optional methods. To have such optionaling, we need to mark the protocol as @objc. With such marking,
+// we can't have pure-Swift 'Any' return object or argument. Buh...
+
+class Item {
+    var title: String = ""
+    var icon: NSImage?
+    var menu: NSMenu?
+    var altIcon: NSImage?
+    
+    init(title: String, icon: NSImage?, menu: NSMenu?, altIcon: NSImage?) {
+        self.title = title
+        self.icon = icon
+        self.menu = menu
+        self.altIcon = altIcon
+    }
+}
+
+extension Item: Equatable { }
+
+func ==(lhs: Item, rhs: Item) -> Bool {
+    return lhs.title == rhs.title
+}
 
 class PaneViewController: NSViewController, TabsControlDataSource, TabsControlDelegate {
 
     @IBOutlet weak var tabsBar: TabsControl?
     @IBOutlet weak var useFullWidthTabsCheckButton: NSButton?
     @IBOutlet weak var tabWidthsLabel: NSTextField?
-    
-    var titles: Array<String> = []
-    var icons: [String: NSImage] = [:]
-    var menus: [String: NSMenu] = [:]
+
+    var items: Array<Item> = []
+    override var title: String? {
+        didSet { self.tabWidthsLabel?.stringValue = self.title! }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         self.tabsBar?.dataSource = self
         self.tabsBar?.delegate = self
-        
-        let labelString = NSString(format:"min %.0f < %.0f < %.0f max", self.tabsBar!.minTabWidth, self.tabsBar!.currentTabWidth(), self.tabsBar!.maxTabWidth)
-
-        self.tabWidthsLabel?.stringValue = labelString as String
-        
-        self.tabsBar!.preferFullWidthTabs = self.useFullWidthTabsCheckButton!.state == NSOnState
         self.tabsBar!.reloadTabs()
     }
-
-    @IBAction func toggleFullWidthTabs(sender: AnyObject) {
-        self.tabsBar!.preferFullWidthTabs = self.useFullWidthTabsCheckButton!.state == NSOnState
-    }
-    
-    override func mouseDown(theEvent: NSEvent) {
-    
-        super.mouseDown(theEvent)
-    
-        let sendNotification = (self.tabsBar?.highlighted == false)
-        self.tabsBar?.highlight(true)
         
-        if (sendNotification) {
-    NSNotificationCenter.defaultCenter().postNotificationName("PaneSelectionDidChangeNotification", object: self)
-        }
-    }
-    
-    func updateUponPaneSelectionDidChange(notif: NSNotification) {
-//        if notif.object != self {
-//            self.tabsBar?.highlight(false)
-//        }
-    }
-    
-    func updateLabelsUponReframe(notif: NSNotification) {
-    
-        let labelString = NSString(format:"min %.0f < %.0f < %.0f max", self.tabsBar!.minTabWidth, self.tabsBar!.currentTabWidth(), self.tabsBar!.maxTabWidth)
-    
-        self.tabWidthsLabel?.stringValue = labelString as String
-    }
-
     // MARK: TabsControlDataSource
     
     func tabsControlNumberOfTabs(control: TabsControl) -> Int {
-        return self.titles.count
+        return self.items.count
     }
     
     func tabsControl(control: TabsControl, itemAtIndex index: Int) -> AnyObject {
-        return self.titles[index]
+        return self.items[index]
     }
     
     func tabsControl(control: TabsControl, titleForItem item: AnyObject) -> String {
-        let index = self.titles.indexOf(item as! String)!
-        return (index == NSNotFound) ? "?" : self.titles[index];
-
+        return (item as! Item).title
     }
     
     // MARK: TabsControlDataSource : Optionals
     
     func tabsControl(control: TabsControl, menuForItem item: AnyObject) -> NSMenu? {
-        return self.menus[item as! String]
+        return (item as! Item).menu
     }
     
     func tabsControl(control: TabsControl, iconForItem item: AnyObject) -> NSImage? {
-        let titleItem = item as! String
-        
-        if self.title == "pane1" {
-            if titleItem == self.titles[0] {
-                return NSImage(named:"Star")
-            }
-            else if titleItem == self.titles[1] {
-                return NSImage(named:"Oval")
-            }
-        }
-        else {
-            if titleItem == self.titles[0] {
-                return NSImage(named:"Star")
-            }
-            else if titleItem == self.titles[1] {
-                return NSImage(named:"Triangle")
-            }
-            else if titleItem == self.titles[2] {
-                return NSImage(named:"Spiral")
-            }
-            else if titleItem == self.titles[3] {
-                return NSImage(named:"Polygon")
-            }
-        }
-        
-        return nil
+        return (item as! Item).icon
+    }
+    
+    func tabsControl(control: TabsControl, titleAlternativeIconForItem item: AnyObject) -> NSImage? {
+        return (item as! Item).altIcon
     }
 
     // MARK: TabsControlDelegate
@@ -120,7 +87,7 @@ class PaneViewController: NSViewController, TabsControlDataSource, TabsControlDe
     }
     
     func tabsControl(control: TabsControl, didReorderItems items: [AnyObject]) {
-        self.titles = items as! [String]
+        self.items = items.map { $0 as! Item }
     }
     
     func tabsControl(control: TabsControl, canEditTitleOfItem: AnyObject) -> Bool {
@@ -128,8 +95,18 @@ class PaneViewController: NSViewController, TabsControlDataSource, TabsControlDe
     }
     
     func tabsControl(control: TabsControl, setTitle newTitle: String, forItem item: AnyObject) {
-        let index = self.titles.indexOf(item as! String)!
-        self.titles[index] = newTitle
+        let typedItem = item as! Item
+        let titles = self.items.map { $0.title }
+        let index = titles.indexOf(typedItem.title)!
+
+        let newItem = Item(title: newTitle, icon: typedItem.icon, menu: typedItem.menu, altIcon: typedItem.altIcon)
+        let range = index..<index+1
+        self.items.replaceRange(range, with: [newItem])
+    }
+
+    func tabsControl(control: TabsControl, canSelectItem item: AnyObject) -> Bool {
+
+        return (item as! Item) != self.items.first
     }
 }
 

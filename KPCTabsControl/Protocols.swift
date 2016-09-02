@@ -3,7 +3,7 @@
 //  KPCTabsControl
 //
 //  Created by Cédric Foellmi on 15/07/16.
-//  Copyright © 2016 Cédric Foellmi. All rights reserved.
+//  Licensed under the MIT License (see LICENSE file)
 //
 
 import AppKit
@@ -73,16 +73,63 @@ import AppKit
 }
 
 @objc public protocol TabsControlDelegate: NSControlTextEditingDelegate {
+    /**
+     *  Determine if the tab can be selected.
+     *
+     *  - parameter tabControl: The instance of the tabs control.
+     *  - parameter item:       The item representing the given tab.
+     *
+     *  - returns: A boolean value indicating whether the tab can be selected or not.
+     */
     optional func tabsControl(control: TabsControl, canSelectItem item: AnyObject) -> Bool
 
-    optional func tabsControlDidChangeSelection(control: TabsControl)
+    /**
+     *  If implemented, the delegate is informed that the selected tab did change.
+     *  See also TabsControlSelectionDidChangeNotification
+     *
+     *  - parameter tabControl: The instance of the tabs control.
+     *  - parameter item:       The item representing the selected tab.
+     */
+    optional func tabsControlDidChangeSelection(control: TabsControl, item: AnyObject)
 
+    /**
+     *  Return `true` if the tab is allowed to be reordered (by being dragged with the mouse).
+     *  This method has no effect if the one below is not implemented.
+     *
+     *  - parameter tabControl: The instance of the tabs control.
+     *  - parameter item:       The item representing the given tab.
+     *
+     *  - returns: A boolean value indicating whether the tab can be reordered or not.
+     */
     optional func tabsControl(control: TabsControl, canReorderItem item: AnyObject) -> Bool
 
+    /**
+     *  If implemented, the delegate is informed that the tabs have been reordered. It is the delegate responsability
+     *  to store the new order of items. If not stored, the tabs will recover their original order.
+     *
+     *  - parameter tabControl: The instance of the tabs control.
+     *  - parameter items:      The array the items following the new orders.
+     */
     optional func tabsControl(control: TabsControl, didReorderItems items: [AnyObject])
 
-    optional func tabsControl(control: TabsControl, canEditTitleOfItem: AnyObject) -> Bool
+    /**
+     *  Return `true` if you allow the editing of the title of the tab. By default, titles are not editable.
+     *  This method has no effect if the one below is not implemented.
+     *
+     *  - parameter tabControl: The instance of the tabs control.
+     *  - parameter item:       The item representing the given tab.
+     *
+     *  - returns: A boolean value indicating whether the tab title can be edited or not.
+     */
+    optional func tabsControl(control: TabsControl, canEditTitleOfItem item: AnyObject) -> Bool
 
+    /**
+     *  If implemented, the delegate is informed that the tab has been renamed to the given title. Again, it is the
+     *  delegate responsability to store the new title.
+     *
+     *  - parameter tabControl: The instance of the tabs control.
+     *  - parameter newTitle:   The new title value.
+     *  - parameter item:       The item representing the given tab.
+     */
     optional func tabsControl(control: TabsControl, setTitle newTitle: String, forItem item: AnyObject)
-
 }

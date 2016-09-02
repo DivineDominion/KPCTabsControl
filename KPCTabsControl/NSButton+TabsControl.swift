@@ -3,7 +3,7 @@
 //  KPCTabsControl
 //
 //  Created by Cédric Foellmi on 14/06/16.
-//  Copyright © 2016 Cédric Foellmi. All rights reserved.
+//  Licensed under the MIT License (see LICENSE file)
 //
 
 import AppKit
@@ -12,7 +12,6 @@ extension NSButton {
     static func KPC_auxiliaryButton(withImageNamed imageName: String, target: AnyObject?, action: Selector) -> NSButton {
         
         let cell = TabButtonCell(textCell: "")
-        cell.borderMask = cell.borderMask.union(.Bottom)
         let mask = NSEventMask.LeftMouseDownMask.union(NSEventMask.PeriodicMask)
         cell.sendActionOn(Int(mask.rawValue))
         
