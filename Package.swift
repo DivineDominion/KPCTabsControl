@@ -23,7 +23,8 @@ let package = Package(
             name: "KPCTabsControl",
             path: "KPCTabsControl",
             resources: [
-                .copy("Resources")
+                .process("Resources/PrivacyInfo.xcprivacy"),
+                .copy("Resources"),
             ],
             swiftSettings: [.define("SwiftPackage")]
         )
